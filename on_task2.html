@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym To-Do List</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif, sans-serif;
+            margin: 0;
+            background: url('file:///C:/Users/abhin/Downloads/gym3.jpg') no-repeat center center fixed; /* Replace with your overall background image URL */
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(51, 51, 51, 0.8);
+            color: #fff;
+            width: 100%;
+        }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            transition: background 0.3s; 
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .section-image {
+            width: 100%; 
+            height: auto; 
+            border-radius: 8px; 
+            margin-bottom: 10px;
+        }
+
+        .addTaskSymbol {
+            font-size: 1em; 
+            background-color: #0e0d0d;
+            color: #fff;
+            border: none;
+            padding: 5px 8px; 
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .addTaskSymbol:hover {
+            background-color: #45a049;
+        }
+
+        .taskCheckbox {
+            margin-left: 10px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            border: 2px solid black;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .taskItem {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: rgba(240, 240, 240, 0.8);
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .taskText {
+            flex-grow: 1;
+            margin-left: 10px;
+        }
+
+        .taskCheckbox.checked {
+            background-color: #0c160c;
+            border-color: #050f06;
+            color: #fff;
+        }
+
+        .taskCheckbox.checked:hover {
+            background-color: #080808;
+            border-color: #0e0f0e;
+        }
+
+        #enduranceTasks {
+            background: url('file:///C:/Users/abhin/Downloads/endurance-training.jpg') no-repeat center center fixed; 
+            background-size: cover;
+        }
+
+        #strengthTasks {
+            background: url('file:///C:/Users/abhin/Downloads/strength-training.jpg') no-repeat center center fixed; 
+            background-size: cover;
+        }
+
+        #balanceTasks {
+            background: url('file:///C:/Users/abhin/Downloads/balance-training.jpg') no-repeat center center fixed; 
+            background-size: cover;
+        }
+
+        #flexibilityTasks {
+            background: url('file:///C:/Users/abhin/Downloads/flexibility-training.jpeg') no-repeat center center fixed; 
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Gym To-Do List</h1>
+    </header>
+
+    <div id="todoList">
+        <div class="section" id="enduranceSection">
+            <h2>Endurance Training</h2>
+            <img class="section-image" src="file:///C:/Users/abhin/Downloads/endurance-training.jpg" alt="Endurance Training Image">
+            <ul id="enduranceTasks"></ul>
+            <div class="addTaskSymbol" onclick="addTask('endurance', 'enduranceSection')">+</div>
+        </div>
+
+        <div class="section" id="strengthSection">
+            <h2>Strength Training</h2>
+            <img class="section-image" src="file:///C:/Users/abhin/Downloads/strength-training.jpg" alt="Strength Training Image">
+            <ul id="strengthTasks"></ul>
+            <div class="addTaskSymbol" onclick="addTask('strength', 'strengthSection')">+</div>
+        </div>
+
+        <div class="section" id="balanceSection">
+            <h2>Balance Training</h2>
+            <img class="section-image" src="file:///C:/Users/abhin/Downloads/balance-training.jpg" alt="Balance Training Image">
+            <ul id="balanceTasks"></ul>
+            <div class="addTaskSymbol" onclick="addTask('balance', 'balanceSection')">+</div>
+        </div>
+
+        <div class="section" id="flexibilitySection">
+            <h2>Flexibility Training</h2>
+            <img class="section-image" src="file:///C:/Users/abhin/Downloads/flexibility-training.jpeg" alt="Flexibility Training Image">
+            <ul id="flexibilityTasks"></ul>
+            <div class="addTaskSymbol" onclick="addTask('flexibility', 'flexibilitySection')">+</div>
+        </div>
+    </div>
+
+    <script>
+        function addTask(category, sectionId) {
+            var tasksList = document.getElementById(category + "Tasks");
+            var section = document.getElementById(sectionId);
+
+            section.style.background = 'url(\'file:///C:/Users/abhin/Downloads/' + category + '-training.jpg\') no-repeat center center fixed';
+            section.style.backgroundSize = 'cover';
+    
+            for (var i = 0; i < 3; i++) {
+                var taskItem = document.createElement("li");
+    
+                var inputField = document.createElement("input");
+                inputField.type = "text";
+                inputField.placeholder = "Task";
+                inputField.className = "taskText";
+                inputField.addEventListener("keydown", function (event) {
+                    if (event.key === "Enter") {
+                        saveTask(this, category);
+                    }
+                });
+                taskItem.appendChild(inputField);
+    
+                var checkbox = document.createElement("div");
+                checkbox.className = "taskCheckbox";
+                checkbox.setAttribute("onclick", "toggleTask(this)");
+                taskItem.appendChild(checkbox);
+    
+                tasksList.appendChild(taskItem);
+    
+                inputField.focus();
+            }
+        }
+    
+        function saveTask(inputField, category) {
+            var taskDescription = inputField.value.trim();
+    
+            if (taskDescription) {
+                var taskItem = document.createElement("li");
+    
+                var checkbox = document.createElement("div");
+                checkbox.className = "taskCheckbox";
+                checkbox.setAttribute("onclick", "toggleTask(this)");
+                taskItem.appendChild(checkbox);
+    
+                var taskText = document.createElement("span");
+                taskText.className = "taskText";
+                taskText.textContent = taskDescription;
+                taskItem.appendChild(taskText);
+    
+                var tasksList = document.getElementById(category + "Tasks");
+                tasksList.appendChild(taskItem);
+    
+                inputField.parentNode.removeChild(inputField);
+            }
+        }
+    
+        function toggleTask(checkbox) {
+            checkbox.classList.toggle("checked");
+        }
+    </script>
+</body>
+</html>
